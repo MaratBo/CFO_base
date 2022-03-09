@@ -37,9 +37,7 @@ day_base = {'base': None}
 URL = 'https://auto.ru/lipetskaya_oblast/cars/used/?seller_group=COMMERCIAL'
 URL_BEGIN = 'https://auto.ru/'
 URL_END = '/cars/used/?seller_group=COMMERCIAL'
-HEADERS = {'accept': '*/*', 'user-agent':'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) '
-                                         'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 '
-                                         'Mobile Safari/537.36'}
+HEADERS = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9; rv:45.0) Gecko/20100101 Firefox/45.0'}
 
 
 def main() -> str:
