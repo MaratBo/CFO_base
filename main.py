@@ -37,15 +37,19 @@ day_base = {'base': None}
 URL = 'https://auto.ru/lipetskaya_oblast/cars/used/?seller_group=COMMERCIAL'
 URL_BEGIN = 'https://auto.ru/'
 URL_END = '/cars/used/?seller_group=COMMERCIAL'
-HEADERS = {'accept': '*/*', 'user-agent':'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) '
-                                         'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 '
-                                         'Mobile Safari/537.36'}
+# HEADERS = {'accept': '*/*', 'user-agent':'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) '
+#                                          'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.120 '
+#                                          'Mobile Safari/537.36'}
+HEADERS = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9; rv:45.0) Gecko/20100101 Firefox/45.0'}
 
 
 def main() -> str:
     copy_base = copy.deepcopy(REGIONS)
     copy_day_base = copy.deepcopy(day_base)
     for geo in RG:
+        if geo in ['belgorodskaya_oblast', 'smolenskaya_oblast', 'orlovskaya_oblast', 'kaluzhskaya_oblast',
+                   'tambovskaya_oblast', 'vladimirskaya_oblast']:
+            time.sleep(21)
         url = URL_BEGIN + geo + URL_END
         r = requests.get(url, HEADERS).text
         soup = bs(r, 'html.parser')
@@ -53,11 +57,11 @@ def main() -> str:
 
             count = soup.find('span', class_='ButtonWithLoader__content').text
             numb = re.sub('\D', '', count)
-            print(geo, count)
+            print(geo, numb)
             REGIONS[geo] = int(numb)
         except AttributeError:
             print(f'{geo} not accessable')
-        time.sleep(16)
+        time.sleep(26)
     all_base_count = [x for x in list(REGIONS.values()) if x is not None]
     sum_base_count = sum(all_base_count)
     day_base['base'] = sum_base_count
@@ -109,7 +113,7 @@ if __name__ == '__main__':
         m = time_now.minute
         d = time_now.date().strftime("%d")
         print(f'check time {h}:{m}')
-        if m in range(0, 55) and h == 15 or m in range(0, 59) and h == 16:
+        if m in range(0, 55) and h == 15 or m in range(0, 59) and h == 19:
             print(f'start script {d}-{h}:{m}')
             message_bot()
             time.sleep(32400)
