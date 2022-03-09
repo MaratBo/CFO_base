@@ -57,7 +57,7 @@ def main() -> str:
             REGIONS[geo] = int(numb)
         except AttributeError:
             print(f'{geo} not accessable')
-        #time.sleep(8)
+        time.sleep(16)
     all_base_count = [x for x in list(REGIONS.values()) if x is not None]
     sum_base_count = sum(all_base_count)
     day_base['base'] = sum_base_count
@@ -101,6 +101,7 @@ def message_bot() -> None:
     #requests.post(URL_BOT, data=data)
     print(data['text'])
 
+
 if __name__ == '__main__':
     while True:
         time_now = datetime.datetime.now() + timedelta(hours=3)
@@ -108,7 +109,7 @@ if __name__ == '__main__':
         m = time_now.minute
         d = time_now.date().strftime("%d")
         print(f'check time {h}:{m}')
-        if m in range(0, 30) and h == 8 or m in range(0, 50) and h == 22:
+        if m in range(0, 55) and h == 15 or m in range(0, 59) and h == 16:
             print(f'start script {d}-{h}:{m}')
             message_bot()
             time.sleep(32400)
