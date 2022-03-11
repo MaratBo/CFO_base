@@ -16,8 +16,7 @@ TOKEN = os.getenv('TOKEN')
 CHAT_ID = os.getenv('CHAT')
 RG = ['lipetskaya_oblast', 'belgorodskaya_oblast', 'ivanovskaya_oblast', 'tulskaya_oblast', 'smolenskaya_oblast',
       'tverskaya_oblast', 'orlovskaya_oblast', 'bryanskaya_oblast', 'kaluzhskaya_oblast', 'ryazanskaya_oblast',
-      'kostromskaya_oblast', 'tambovskaya_oblast', 'kurskaya_oblast', 'vladimirskaya_oblast', 'yaroslavskaya_oblast',
-      'chukotskiy_ao']
+      'kostromskaya_oblast', 'tambovskaya_oblast', 'kurskaya_oblast', 'vladimirskaya_oblast', 'yaroslavskaya_oblast',]
 # RG = ['kostromskaya_oblast', 'tambovskaya_oblast', 'kurskaya_oblast', 'vladimirskaya_oblast', 'yaroslavskaya_oblast',
 #       'chukotskiy_ao']
 REGIONS = {'lipetskaya_oblast': None,
@@ -63,7 +62,7 @@ def main(list_regions: list) -> list:
         except AttributeError:
             REGIONS[geo] = None
             print(f'{geo} not accessable')
-        # time.sleep(26)
+        time.sleep(26)
     answer = [copy_base, copy_day_base]
     medium_check(answer)
     #return answer
@@ -110,7 +109,7 @@ def medium_check(answer: list) -> None:
     global atempt
     atempt += 1
     print(atempt)
-    time.sleep(15)
+    time.sleep(60)
     try:
         check_none = [k for k, v in REGIONS.items() if v is None]
         if check_none:
