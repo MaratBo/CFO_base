@@ -9,13 +9,17 @@ from dotenv import load_dotenv
 import os
 
 
+
 load_dotenv()
 
 TOKEN = os.getenv('TOKEN')
 CHAT_ID = os.getenv('CHAT')
-RG = ['lipetskaya_oblast', 'belgorodskaya_oblast', 'ivanovskaya_oblast', 'tulskaya_oblast', 'smolenskaya_oblast',
+RG2 = ['lipetskaya_oblast', 'belgorodskaya_oblast', 'ivanovskaya_oblast', 'tulskaya_oblast', 'smolenskaya_oblast',
       'tverskaya_oblast', 'orlovskaya_oblast', 'bryanskaya_oblast', 'kaluzhskaya_oblast', 'ryazanskaya_oblast',
-      'kostromskaya_oblast', 'tambovskaya_oblast', 'kurskaya_oblast', 'vladimirskaya_oblast', 'yaroslavskaya_oblast']
+      'kostromskaya_oblast', 'tambovskaya_oblast', 'kurskaya_oblast', 'vladimirskaya_oblast', 'yaroslavskaya_oblast',
+      'chukotskiy_ao']
+RG = ['kostromskaya_oblast', 'tambovskaya_oblast', 'kurskaya_oblast', 'vladimirskaya_oblast', 'yaroslavskaya_oblast',
+      'chukotskiy_ao']
 REGIONS = {'lipetskaya_oblast': None,
            'tambovskaya_oblast': None,
            'belgorodskaya_oblast': None,
@@ -31,10 +35,10 @@ REGIONS = {'lipetskaya_oblast': None,
            'ryazanskaya_oblast': None,
            'kaluzhskaya_oblast': None,
            'tverskaya_oblast': None,
+           'chukotskiy_ao': None
            }
 day_base = {'base': None}
 
-URL = 'https://auto.ru/lipetskaya_oblast/cars/used/?seller_group=COMMERCIAL'
 URL_BEGIN = 'https://auto.ru/'
 URL_END = '/cars/used/?seller_group=COMMERCIAL'
 # HEADERS = {'accept': '*/*', 'user-agent':'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) '
@@ -43,13 +47,10 @@ URL_END = '/cars/used/?seller_group=COMMERCIAL'
 HEADERS = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9; rv:45.0) Gecko/20100101 Firefox/45.0'}
 
 
-def main() -> str:
+def main(list_regions: list) -> list:
     copy_base = copy.deepcopy(REGIONS)
     copy_day_base = copy.deepcopy(day_base)
-    for geo in RG:
-        if geo in ['belgorodskaya_oblast', 'smolenskaya_oblast', 'orlovskaya_oblast', 'kaluzhskaya_oblast',
-                   'tambovskaya_oblast', 'vladimirskaya_oblast']:
-            time.sleep(21)
+    for geo in list_regions:
         url = URL_BEGIN + geo + URL_END
         r = requests.get(url, HEADERS).text
         soup = bs(r, 'html.parser')
@@ -60,9 +61,18 @@ def main() -> str:
             print(geo, numb)
             REGIONS[geo] = int(numb)
         except AttributeError:
+            REGIONS[geo] = None
             print(f'{geo} not accessable')
-        time.sleep(26)
-    all_base_count = [x for x in list(REGIONS.values()) if x is not None]
+        # time.sleep(26)
+    answer = [copy_base, copy_day_base]
+    medium_check(answer)
+    #return answer
+
+
+def make_text(copy_list: list):
+    copy_base = copy_list[0]
+    copy_day_base = copy_list[1]
+    all_base_count = [val for val in REGIONS.values()]
     sum_base_count = sum(all_base_count)
     day_base['base'] = sum_base_count
     try:
@@ -95,15 +105,39 @@ def count_diff_for_regions(copy: dict, last_dict: dict) -> str:
             pass
     return text
 
+atempt = 0
+def medium_check(answer: list) -> None:
+    global atempt
+    atempt += 1
+    print(atempt)
+    time.sleep(15)
+    try:
+        check_none = [k for k, v in REGIONS.items() if v is None]
+        if check_none:
+            print(f'restart main {check_none}')
+            main(check_none)
+        else:
+            print(f'to message {answer}')
+            message_bot(answer)
+    except TypeError:
+        pass
 
-def message_bot() -> None:
-    value = main()
-    URL_BOT = ('https://api.telegram.org/bot{token}/sendMessage'.format(token=TOKEN))
-    data = {'chat_id': CHAT_ID,
-            'text': value
-            }
-    #requests.post(URL_BOT, data=data)
-    print(data['text'])
+
+def message_bot(answer: list) -> None:
+    value = answer
+    check_none = [k for k, v in REGIONS.items() if v is not None]
+    if len(check_none) == 16:
+        text = make_text(value)
+        URL_BOT = ('https://api.telegram.org/bot{token}/sendMessage'.format(token=TOKEN))
+        data = {'chat_id': CHAT_ID,
+                'text': text
+                }
+        #requests.post(URL_BOT, data=data)
+        print(data['text'])
+    else:
+        none_list = [k for k, v in REGIONS.items() if v is None]
+        print(f'else {none_list}')
+        main(none_list)
 
 
 if __name__ == '__main__':
@@ -115,7 +149,7 @@ if __name__ == '__main__':
         print(f'check time {h}:{m}')
         if m in range(0, 55) and h == 15 or m in range(0, 59) and h == 16:
             print(f'start script {d}-{h}:{m}')
-            message_bot()
+            value = main(RG)
             time.sleep(32400)
         else:
             time.sleep(1200)
