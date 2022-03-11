@@ -34,7 +34,6 @@ REGIONS = {'lipetskaya_oblast': None,
            'ryazanskaya_oblast': None,
            'kaluzhskaya_oblast': None,
            'tverskaya_oblast': None,
-           'chukotskiy_ao': None
            }
 day_base = {'base': None}
 
@@ -61,6 +60,7 @@ def main(list_regions: list) -> list:
             REGIONS[geo] = int(numb)
         except AttributeError:
             REGIONS[geo] = None
+            time.sleep(30)
             print(f'{geo} not accessable')
         time.sleep(26)
     answer = [copy_base, copy_day_base]
@@ -109,11 +109,11 @@ def medium_check(answer: list) -> None:
     global atempt
     atempt += 1
     print(atempt)
-    time.sleep(60)
+    time.sleep(120)
     try:
         check_none = [k for k, v in REGIONS.items() if v is None]
         if check_none:
-            print(f'restart main {check_none}')
+            print(f'restart main {len(check_none)}\n{check_none}')
             main(check_none)
         else:
             print(f'to message {answer}')
@@ -125,7 +125,7 @@ def medium_check(answer: list) -> None:
 def message_bot(answer: list) -> None:
     value = answer
     check_none = [k for k, v in REGIONS.items() if v is not None]
-    if len(check_none) == 16:
+    if len(check_none) == 15:
         text = make_text(value)
         URL_BOT = ('https://api.telegram.org/bot{token}/sendMessage'.format(token=TOKEN))
         data = {'chat_id': CHAT_ID,
