@@ -14,12 +14,12 @@ load_dotenv()
 
 TOKEN = os.getenv('TOKEN')
 CHAT_ID = os.getenv('CHAT')
-RG2 = ['lipetskaya_oblast', 'belgorodskaya_oblast', 'ivanovskaya_oblast', 'tulskaya_oblast', 'smolenskaya_oblast',
+RG = ['lipetskaya_oblast', 'belgorodskaya_oblast', 'ivanovskaya_oblast', 'tulskaya_oblast', 'smolenskaya_oblast',
       'tverskaya_oblast', 'orlovskaya_oblast', 'bryanskaya_oblast', 'kaluzhskaya_oblast', 'ryazanskaya_oblast',
       'kostromskaya_oblast', 'tambovskaya_oblast', 'kurskaya_oblast', 'vladimirskaya_oblast', 'yaroslavskaya_oblast',
       'chukotskiy_ao']
-RG = ['kostromskaya_oblast', 'tambovskaya_oblast', 'kurskaya_oblast', 'vladimirskaya_oblast', 'yaroslavskaya_oblast',
-      'chukotskiy_ao']
+# RG = ['kostromskaya_oblast', 'tambovskaya_oblast', 'kurskaya_oblast', 'vladimirskaya_oblast', 'yaroslavskaya_oblast',
+#       'chukotskiy_ao']
 REGIONS = {'lipetskaya_oblast': None,
            'tambovskaya_oblast': None,
            'belgorodskaya_oblast': None,
