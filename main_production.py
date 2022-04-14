@@ -159,7 +159,7 @@ if __name__ == '__main__':
             print(f'morning start {d}-{h}:{m}')
             value = main(REGION_LIST)
             time.sleep(36000)
-        elif m in range(0, 59) and h == 21:
+        elif m in range(0, 59) and h == 18:
             day_time = 'evening'
             print(f'evening start {d}-{h}:{m}')
             value = main(REGION_LIST)
