@@ -5,7 +5,7 @@ import re
 
 
 URL_BEGIN = 'https://auto.ru/'
-URL_END = '/dilery/cars/used/'
+URL_END = '/cars/used/?seller_group=COMMERCIAL'
 answer = []
 HEADERS = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9; rv:45.0) Gecko/20100101 Firefox/45.0'}
 

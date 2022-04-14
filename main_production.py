@@ -42,7 +42,7 @@ REGIONS = {'lipetskaya_oblast': None,
 day_base = {'base': None}
 
 URL_BEGIN = 'https://auto.ru/'
-URL_END = '/dilery/cars/used/'
+URL_END = '/cars/used/?seller_group=COMMERCIAL'
 HEADERS = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9; rv:45.0) Gecko/20100101 Firefox/45.0'}
 day_time = ''
 
@@ -63,8 +63,8 @@ def main(list_regions: list) -> list:
         except AttributeError:
             REGIONS[geo] = None
             print(f'{geo} not accessable')
-        connect(date, geo, day_time, int(numb))
-        time.sleep(480)
+        #connect(date, geo, day_time, int(numb))
+        #time.sleep(480)
 
 
 '''   answer = [copy_base, copy_day_base]
@@ -159,7 +159,7 @@ if __name__ == '__main__':
             print(f'morning start {d}-{h}:{m}')
             value = main(REGION_LIST)
             time.sleep(36000)
-        elif m in range(0, 59) and h == 17:
+        elif m in range(0, 59) and h == 21:
             day_time = 'evening'
             print(f'evening start {d}-{h}:{m}')
             value = main(REGION_LIST)
