@@ -152,7 +152,7 @@ if __name__ == '__main__':
         m = time_now.minute
         d = time_now.date().strftime("%d")
         print(f'check time {h}:{m}')
-        if m in range(0, 59) and h == 15:
+        if m in range(0, 59) and h == 8:
             day_time = 'morning'
             print(f'morning start {d}-{h}:{m}')
             value = main(REGION_LIST)
