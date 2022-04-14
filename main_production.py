@@ -63,8 +63,8 @@ def main(list_regions: list) -> list:
         except AttributeError:
             REGIONS[geo] = None
             print(f'{geo} not accessable')
-        #connect(date, geo, day_time, int(numb))
-        #time.sleep(480)
+        connect(date, geo, day_time, int(numb))
+        time.sleep(480)
 
 
 '''   answer = [copy_base, copy_day_base]
