@@ -46,6 +46,7 @@ URL_END = '/dilery/cars/used/'
 HEADERS = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9; rv:45.0) Gecko/20100101 Firefox/45.0'}
 day_time = ''
 
+
 def main(list_regions: list) -> list:
     date = str(datetime.datetime.today().date())
     copy_base = copy.deepcopy(REGIONS)
@@ -63,7 +64,7 @@ def main(list_regions: list) -> list:
             REGIONS[geo] = None
             print(f'{geo} not accessable')
         connect(date, geo, day_time, int(numb))
-        time.sleep(4800)
+        time.sleep(480)
 
     answer = [copy_base, copy_day_base]
     #medium_check(answer)
