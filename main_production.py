@@ -66,9 +66,10 @@ def main(list_regions: list) -> list:
         connect(date, geo, day_time, int(numb))
         time.sleep(480)
 
-    answer = [copy_base, copy_day_base]
+ '''   answer = [copy_base, copy_day_base]
     #medium_check(answer)
     #return answer
+'''
 
 
 def make_text(copy_list: list):
