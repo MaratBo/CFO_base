@@ -1,9 +1,16 @@
+altgraph==0.17.2
 beautifulsoup4==4.10.0
 bs4==0.0.1
 certifi==2021.10.8
 charset-normalizer==2.0.12
 getenv==0.2.0
 idna==3.3
+macholib==1.16
+modulegraph==0.19.2
+mysql-connector-python==8.0.28
+protobuf==3.20.0
+psycopg2==2.9.3
+py2app==0.27
 python-dotenv==0.19.2
 requests==2.27.1
 soupsieve==2.3.1

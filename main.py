@@ -7,18 +7,18 @@ import re
 import time
 from dotenv import load_dotenv
 import os
-
+import test
 
 
 load_dotenv()
 
 TOKEN = os.getenv('TOKEN')
 CHAT_ID = os.getenv('CHAT')
-RG = ['lipetskaya_oblast', 'belgorodskaya_oblast', 'ivanovskaya_oblast', 'tulskaya_oblast', 'smolenskaya_oblast',
-      'tverskaya_oblast', 'orlovskaya_oblast', 'bryanskaya_oblast', 'kaluzhskaya_oblast', 'ryazanskaya_oblast',
-      'kostromskaya_oblast', 'tambovskaya_oblast', 'kurskaya_oblast', 'vladimirskaya_oblast', 'yaroslavskaya_oblast',]
-# RG = ['kostromskaya_oblast', 'tambovskaya_oblast', 'kurskaya_oblast', 'vladimirskaya_oblast', 'yaroslavskaya_oblast',
-#       'chukotskiy_ao']
+# RG = ['lipetskaya_oblast', 'belgorodskaya_oblast', 'ivanovskaya_oblast', 'tulskaya_oblast', 'smolenskaya_oblast',
+#       'tverskaya_oblast', 'orlovskaya_oblast', 'bryanskaya_oblast', 'kaluzhskaya_oblast', 'ryazanskaya_oblast',
+#       'kostromskaya_oblast', 'tambovskaya_oblast', 'kurskaya_oblast', 'vladimirskaya_oblast', 'yaroslavskaya_oblast',]
+RG = ['kostromskaya_oblast', 'tambovskaya_oblast', 'kurskaya_oblast', 'vladimirskaya_oblast', 'yaroslavskaya_oblast',
+      'chukotskiy_ao']
 REGIONS = {'lipetskaya_oblast': None,
            'tambovskaya_oblast': None,
            'belgorodskaya_oblast': None,
@@ -60,9 +60,9 @@ def main(list_regions: list) -> list:
             REGIONS[geo] = int(numb)
         except AttributeError:
             REGIONS[geo] = None
-            time.sleep(30)
+            #time.sleep(30)
             print(f'{geo} not accessable')
-        time.sleep(26)
+        #time.sleep(26)
     answer = [copy_base, copy_day_base]
     medium_check(answer)
     #return answer
@@ -106,15 +106,18 @@ def count_diff_for_regions(copy: dict, last_dict: dict) -> str:
 
 atempt = 0
 def medium_check(answer: list) -> None:
+    '''получаем копию списка и проверяем на наличие None'''
     global atempt
     atempt += 1
     print(atempt)
-    time.sleep(120)
+    #time.sleep(120)
     try:
         check_none = [k for k, v in REGIONS.items() if v is None]
         if check_none:
+
             print(f'restart main {len(check_none)}\n{check_none}')
-            main(check_none)
+            #test.re_round(check_none)
+            #main(check_none)
         else:
             print(f'to message {answer}')
             message_bot(answer)
@@ -132,7 +135,7 @@ def message_bot(answer: list) -> None:
                 'text': text
                 }
         #requests.post(URL_BOT, data=data)
-        print(data['text'])
+        print(f'sms {data["text"]}')
     else:
         none_list = [k for k, v in REGIONS.items() if v is None]
         print(f'else {none_list}')
@@ -141,12 +144,12 @@ def message_bot(answer: list) -> None:
 
 if __name__ == '__main__':
     while True:
-        time_now = datetime.datetime.now() + timedelta(hours=3)
+        time_now = datetime.datetime.now()# + timedelta(hours=3)
         h = time_now.hour
         m = time_now.minute
         d = time_now.date().strftime("%d")
         print(f'check time {h}:{m}')
-        if m in range(0, 55) and h == 15 or m in range(0, 59) and h == 16:
+        if m in range(0, 55) and h == 11 or m in range(0, 59) and h == 20:
             print(f'start script {d}-{h}:{m}')
             value = main(RG)
             time.sleep(32400)
