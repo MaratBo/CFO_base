@@ -13,10 +13,10 @@ def connect(date, city, day_time, value):
         if conn:
             print('Connection - record')
         if day_time == 'morning':
-            mydb.execute(f"INSERT INTO base (date, region, morning) VALUES ('{date}', '{city}', {value})")
+            mydb.execute(f"INSERT INTO base (date, reg, morning) VALUES ('{date}', '{city}', {value})")
         else:
             #mydb.execute(f"INSERT INTO base (evening) VALUES ({value}) WHERE morning = 1100")
-            mydb.execute(f"INSERT INTO base (date, region, evening) VALUES ('{date}', '{city}', {value})")
+            mydb.execute(f"INSERT INTO base (date, reg, evening) VALUES ('{date}', '{city}', {value})")
             #print(mydb.fetchall())
         conn.commit()
         conn.close()
