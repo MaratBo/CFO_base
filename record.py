@@ -1,30 +1,46 @@
-import datetime
-
+import os
+from dotenv import load_dotenv
 from mysql.connector import Error
 import psycopg2
 
 
-def connect(date, city, day_time, value):
+load_dotenv()
+database = os.getenv('DATABASE')
+user = os.getenv('USER')
+password = os.getenv('PASSWORD')
+
+
+def connect(date, city, day_time, value) -> None:
     try:
-        conn = psycopg2.connect(database="d4mk95ai4ne4b2", user="okopkywuaoevjh",
-                            password="3d6cd73a289ad4df33ab24c227129ef9d8678816162bd12527d8b0f681054fd2",
-                            host="ec2-52-3-60-53.compute-1.amazonaws.com", port="5432")
+        conn = psycopg2.connect(database=database, user='okopkywuaoevjh', password=password,
+                                host="ec2-52-3-60-53.compute-1.amazonaws.com", port="5432")
         mydb = conn.cursor()
         if conn:
             print('Connection - record')
         if day_time == 'morning':
-            mydb.execute(f"INSERT INTO base (date, reg, morning) VALUES ('{date}', '{city}', {value})")
+            mydb.execute(f"INSERT INTO stock (date, region, morning) VALUES ('{date}', '{city}', {value})")
+
         else:
-            #mydb.execute(f"INSERT INTO base (evening) VALUES ({value}) WHERE morning = 1100")
-            mydb.execute(f"INSERT INTO base (date, reg, evening) VALUES ('{date}', '{city}', {value})")
-            #print(mydb.fetchall())
+            mydb.execute(f"UPDATE stock SET evening = {value} WHERE date = '{date}' and region = '{city}'")
+
         conn.commit()
-        conn.close()
-
     except Error:
-            print('SQL is not available now')
+        print('fault connect')
 
-date = str(datetime.datetime.today().date())
-#print(date)
-# city = 'lip'
-# connect(date, city, 'evening', 1200)
+
+def record_cfo_base(date: str, day_time: str) -> None:
+    try:
+        conn = psycopg2.connect(database=database, user='okopkywuaoevjh', password=password,
+                                host="ec2-52-3-60-53.compute-1.amazonaws.com", port="5432")
+        mydb = conn.cursor()
+        if day_time == 'morning':
+            mydb.execute(f"SELECT SUM (morning) FROM stock WHERE date='{date}'")
+            sum_value = int(mydb.fetchone()[0])
+            mydb.execute(f"INSERT INTO cfo_base (date, morning) VALUES ('{date}', {sum_value})")
+        else:
+            mydb.execute(f"SELECT SUM (evening) FROM stock WHERE date='{date}'")
+            sum_value = int(mydb.fetchone()[0])
+            mydb.execute(f"UPDATE cfo_base SET evening = {sum_value} WHERE date = '{date}'")
+        conn.commit()
+    except:
+        print('fault with recording cfo_base')

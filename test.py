@@ -1,38 +1,22 @@
-import requests
-from bs4 import BeautifulSoup as bs
-import re
+import datetime
+from datetime import timedelta
+import os
+
+from dotenv import load_dotenv
+from mysql.connector import Error
+import psycopg2
 
 
-
-URL_BEGIN = 'https://auto.ru/'
-URL_END = '/cars/used/?seller_group=COMMERCIAL'
-answer = []
-HEADERS = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9; rv:45.0) Gecko/20100101 Firefox/45.0'}
+load_dotenv()
+database = os.getenv('DATABASE')
+password = os.getenv('PASSWORD')
 
 
-def re_round(data: list):
-    print('dealer page')
-    for geo in data:
-        url = URL_BEGIN + geo + URL_END
-        r = requests.get(url, HEADERS).text
-        soup = bs(r, 'html.parser')
-        sum_dealer_base = 0
-        place = soup.findAll('a', class_='Link DealerListItem__search_results')
-        print(place)
-        # for i in place:
-        #     print(i)
-        #     numb = re.sub('\D', '', i.text)
-        #     sum_dealer_base += int(numb)
-        #     print(f'{numb}')
+def count_dif() -> None:
+    conn = psycopg2.connect(database=database, user='okopkywuaoevjh', password=password,
+                                host="ec2-52-3-60-53.compute-1.amazonaws.com", port="5432")
+    mydb = conn.cursor()
+    mydb.execute(f"SELECT * FROM stock")
+    print(mydb.fetchall())
 
-
-
-
-
-#print(new_dict)
-
-
-
-
-re_round(['tambovskaya_oblast'])
-
+count_dif()

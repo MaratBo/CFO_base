@@ -8,6 +8,9 @@ import time
 from dotenv import load_dotenv
 import os
 import test
+"""conn = psycopg2.connect(database="d4mk95ai4ne4b2", user="okopkywuaoevjh",
+                            password="3d6cd73a289ad4df33ab24c227129ef9d8678816162bd12527d8b0f681054fd2",
+                            host="ec2-52-3-60-53.compute-1.amazonaws.com", port="5432")"""
 
 
 load_dotenv()
