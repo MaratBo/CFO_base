@@ -1,4 +1,4 @@
-git.env
+.env
 /env
 test.py
 main.py
