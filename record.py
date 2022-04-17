@@ -11,6 +11,7 @@ password = os.getenv('PASSWORD')
 
 
 def connect(date, city, day_time, value) -> None:
+    """rec data into stock db each one region"""
     try:
         conn = psycopg2.connect(database=database, user='okopkywuaoevjh', password=password,
                                 host="ec2-52-3-60-53.compute-1.amazonaws.com", port="5432")
@@ -29,6 +30,7 @@ def connect(date, city, day_time, value) -> None:
 
 
 def record_cfo_base(date: str, day_time: str) -> None:
+    """rec data into cfo_base db total count"""
     try:
         conn = psycopg2.connect(database=database, user='okopkywuaoevjh', password=password,
                                 host="ec2-52-3-60-53.compute-1.amazonaws.com", port="5432")

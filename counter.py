@@ -12,7 +12,7 @@ user = os.getenv('USER')
 password = os.getenv('PASSWORD')
 
 
-def count_dif(day_time) -> str:
+def count_dif(day_time: str) -> str:
     """return total and dif"""
     date = str(datetime.datetime.today().date())
     yesterday = datetime.datetime.today().date() - timedelta(days=1)
@@ -22,8 +22,10 @@ def count_dif(day_time) -> str:
         mydb = conn.cursor()
         if day_time == 'morning':
             pass
-            base_now = mydb.execute(f"SELECT morning FROM cfo_base WHERE date = '{date}'")
-            base_yesterday = mydb.execute(f"SELECT evening FROM cfo_base WHERE date = '{yesterday}'")
+            mydb.execute(f"SELECT morning FROM cfo_base WHERE date = '{date}'")
+            base_now = mydb.fetchone()[0]
+            mydb.execute(f"SELECT evening FROM cfo_base WHERE date = '{yesterday}'")
+            base_yesterday = mydb.fetchone()[0]
             dif_base = base_now - base_yesterday
             if base_now > base_yesterday:
                 text = f'База на {date} - {base_now} (+{dif_base})'

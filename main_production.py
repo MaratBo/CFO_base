@@ -22,10 +22,11 @@ REGION_LIST = ['lipetskaya_oblast', 'belgorodskaya_oblast', 'ivanovskaya_oblast'
 URL_BEGIN = 'https://auto.ru/'
 URL_END = '/cars/used/?seller_group=COMMERCIAL'
 HEADERS = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9; rv:45.0) Gecko/20100101 Firefox/45.0'}
-day_time = 'evening'
+day_time = 'morning'
 
 
 def main(list_regions: list) -> None:
+    """parcing data"""
     date = str(datetime.datetime.today().date())
     for geo in list_regions:
         url = URL_BEGIN + geo + URL_END
@@ -63,6 +64,7 @@ if __name__ == '__main__':
             day_time = 'morning'
             print(f'morning start {d}-{h}:{m}')
             main(REGION_LIST)
+            message_bot()
             time.sleep(28800)
         elif m in range(0, 59) and h == 17:
             day_time = 'evening'
