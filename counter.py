@@ -47,3 +47,20 @@ def count_dif(day_time: str) -> str:
             return text
     except Error:
         print('fault with count dif')
+
+
+def get_previous_value(geo, date, day_time):
+    yesterday = datetime.datetime.today().date() - timedelta(days=1)
+    try:
+        conn = psycopg2.connect(database=database, user='okopkywuaoevjh', password=password,
+                                host="ec2-52-3-60-53.compute-1.amazonaws.com", port="5432")
+        mydb = conn.cursor()
+        if day_time == 'morning':
+            mydb.execute(f"SELECT evening FROM stock WHERE date = '{yesterday}' and region = '{geo}'")
+            numb = mydb.fetchone()[0]
+        else:
+            mydb.execute(f"SELECT morning FROM stock WHERE date = '{date}' and region = '{geo}'")
+            numb = mydb.fetchone()[0]
+        return numb
+    except:
+        print("can't get previous count")

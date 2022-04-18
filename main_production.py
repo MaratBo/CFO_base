@@ -7,7 +7,7 @@ import time
 from dotenv import load_dotenv
 import os
 from record import connect, record_cfo_base
-from counter import count_dif
+from counter import count_dif, get_previous_value
 
 
 load_dotenv()
@@ -22,7 +22,7 @@ REGION_LIST = ['lipetskaya_oblast', 'belgorodskaya_oblast', 'ivanovskaya_oblast'
 URL_BEGIN = 'https://auto.ru/'
 URL_END = '/cars/used/?seller_group=COMMERCIAL'
 HEADERS = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9; rv:45.0) Gecko/20100101 Firefox/45.0'}
-day_time = 'morning'
+day_time = ''
 
 
 def main(list_regions: list) -> None:
@@ -37,6 +37,7 @@ def main(list_regions: list) -> None:
             numb = re.sub('\D', '', count)
             print(geo, numb)
         except AttributeError:
+            numb = get_previous_value(geo, date, day_time)
             print(f'{geo} not accessable')
         connect(date, geo, day_time, int(numb))
         time.sleep(480)
@@ -47,7 +48,7 @@ def message_bot() -> None:
     text = count_dif(day_time)
     URL_BOT = ('https://api.telegram.org/bot{token}/sendMessage'.format(token=TOKEN))
     data = {'chat_id': CHAT_ID,
-                'text': text
+            'text': text
             }
     requests.post(URL_BOT, data=data)
     print(data['text'])
@@ -66,7 +67,7 @@ if __name__ == '__main__':
             main(REGION_LIST)
             message_bot()
             time.sleep(28800)
-        elif m in range(0, 59) and h == 17:
+        elif m in range(0, 59) and h == 18:
             day_time = 'evening'
             print(f'evening start {d}-{h}:{m}')
             main(REGION_LIST)
