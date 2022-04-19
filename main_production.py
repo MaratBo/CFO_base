@@ -72,6 +72,6 @@ if __name__ == '__main__':
             print(f'evening start {d}-{h}:{m}')
             main(REGION_LIST)
             message_bot()
-            time.sleep(50400)
+            time.sleep(36000)
         else:
-            time.sleep(3300)
+            time.sleep(2400)

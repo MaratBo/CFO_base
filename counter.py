@@ -28,9 +28,9 @@ def count_dif(day_time: str) -> str:
             base_yesterday = mydb.fetchone()[0]
             dif_base = base_now - base_yesterday
             if base_now > base_yesterday:
-                text = f'База на {date} - {base_now} (+{dif_base})'
+                text = f'База на утро {date} - {base_now} (+{dif_base})'
             else:
-                text = f'База на {date} - {base_now} ({dif_base})'
+                text = f'База на утро {date} - {base_now} ({dif_base})'
             conn.close()
             return text
         else:
@@ -40,9 +40,9 @@ def count_dif(day_time: str) -> str:
             base_morning = mydb.fetchone()[0]
             dif_base = base_now - base_morning
             if base_now > base_morning:
-                text = f'Текущая база - {base_now} (+{dif_base})'
+                text = f'Биржа закрывается - {base_now} (+{dif_base})'
             else:
-                text = f'Текущая база - {base_now} ({dif_base})'
+                text = f'Биржа закрывается - {base_now} ({dif_base})'
             conn.close()
             return text
     except Error:
