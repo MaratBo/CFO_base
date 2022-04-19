@@ -11,11 +11,14 @@ database = os.getenv('DATABASE')
 user = os.getenv('USER')
 password = os.getenv('PASSWORD')
 
+date = str(datetime.datetime.today().date())
+yesterday = datetime.datetime.today().date() - timedelta(days=1)
+
 
 def count_dif(day_time: str) -> str:
     """return total and dif"""
-    date = str(datetime.datetime.today().date())
-    yesterday = datetime.datetime.today().date() - timedelta(days=1)
+    # date = str(datetime.datetime.today().date())
+    # yesterday = datetime.datetime.today().date() - timedelta(days=1)
     try:
         conn = psycopg2.connect(database=database, user='okopkywuaoevjh', password=password,
                                 host="ec2-52-3-60-53.compute-1.amazonaws.com", port="5432")
@@ -50,7 +53,7 @@ def count_dif(day_time: str) -> str:
 
 
 def get_previous_value(geo, date, day_time):
-    yesterday = datetime.datetime.today().date() - timedelta(days=1)
+    #yesterday = datetime.datetime.today().date() - timedelta(days=1)
     try:
         conn = psycopg2.connect(database=database, user='okopkywuaoevjh', password=password,
                                 host="ec2-52-3-60-53.compute-1.amazonaws.com", port="5432")
@@ -64,3 +67,27 @@ def get_previous_value(geo, date, day_time):
         return numb
     except:
         print("can't get previous count")
+
+
+def extreme_dif(day_time: str):
+    """
+    -идем по всем регионам и смотрим разницу
+    -фиксируем отклонения более 10% но не менее 30 авто
+    :return:
+    """
+    try:
+        conn = psycopg2.connect(database=database, user='okopkywuaoevjh', password=password,
+                                host="ec2-52-3-60-53.compute-1.amazonaws.com", port="5432")
+        mydb = conn.cursor()
+        if day_time == 'evening':
+            mydb.execute(f"SELECT (region, morning) FROM stock WHERE date = '{date}'")
+            db_morning = mydb.fetchall()
+            for i in db_morning:
+                pass
+            #print(db_morning)
+            #for region in  db_morning:
+
+        else:
+            pass
+    except:
+        pass

@@ -67,7 +67,7 @@ if __name__ == '__main__':
             main(REGION_LIST)
             message_bot()
             time.sleep(28800)
-        elif m in range(0, 59) and h == 17:
+        elif m in range(0, 59) and h == 18:
             day_time = 'evening'
             print(f'evening start {d}-{h}:{m}')
             main(REGION_LIST)
