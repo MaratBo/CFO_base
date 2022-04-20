@@ -12,7 +12,7 @@ from counter import count_dif, get_previous_value
 
 load_dotenv()
 TOKEN = os.getenv('TOKEN')
-CHAT_ID = os.getenv('CHAT')
+#CHAT_ID = os.getenv('CHAT')
 REGION_LIST = ['lipetskaya_oblast', 'belgorodskaya_oblast', 'ivanovskaya_oblast', 'tulskaya_oblast',
                'smolenskaya_oblast', 'tverskaya_oblast', 'orlovskaya_oblast', 'bryanskaya_oblast', 'kaluzhskaya_oblast',
                'ryazanskaya_oblast', 'kostromskaya_oblast', 'tambovskaya_oblast', 'kurskaya_oblast',
