@@ -26,8 +26,11 @@ day_time = ''
 
 
 def main(list_regions: list) -> None:
-    """parcing data"""
+    """parsing data"""
     date = str(datetime.datetime.today().date())
+    global not_access
+    not_access = 0
+    count_success = 0
     for geo in list_regions:
         url = URL_BEGIN + geo + URL_END
         r = requests.get(url, HEADERS).text
@@ -35,16 +38,24 @@ def main(list_regions: list) -> None:
         try:
             count = soup.find('span', class_='ButtonWithLoader__content').text
             numb = re.sub('\D', '', count)
+            count_success += 1
             print(geo, numb)
         except AttributeError:
             numb = get_previous_value(geo, date, day_time)
-            print(f'{geo} not accessable')
+            print(f'{geo} not accessible')
+            not_access += 1
         connect(date, geo, day_time, int(numb))
-        time.sleep(480)
+        print(f'успешно пройдено {count_success}'
+              f'неуспешных {not_access}')
+        time.sleep(363)
     record_cfo_base(date, day_time)
 
 
 def message_bot() -> None:
+    if not_access == 0:
+        CHAT_ID = os.getenv('CHAT')
+    else:
+        CHAT_ID = os.getenv('CHAT_test')
     text = count_dif(day_time)
     URL_BOT = ('https://api.telegram.org/bot{token}/sendMessage'.format(token=TOKEN))
     data = {'chat_id': CHAT_ID,
@@ -61,13 +72,13 @@ if __name__ == '__main__':
         m = time_now.minute
         d = time_now.date().strftime("%d")
         print(f'check time {h}:{m}')
-        if m in range(0, 59) and h == 8:
+        if m in range(0, 59) and h == 7:
             day_time = 'morning'
             print(f'morning start {d}-{h}:{m}')
             main(REGION_LIST)
             message_bot()
             time.sleep(28800)
-        elif m in range(0, 59) and h == 18:
+        elif m in range(0, 59) and h == 17:
             day_time = 'evening'
             print(f'evening start {d}-{h}:{m}')
             main(REGION_LIST)

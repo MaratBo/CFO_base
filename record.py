@@ -16,8 +16,6 @@ def connect(date, city, day_time, value) -> None:
         conn = psycopg2.connect(database=database, user='okopkywuaoevjh', password=password,
                                 host="ec2-52-3-60-53.compute-1.amazonaws.com", port="5432")
         mydb = conn.cursor()
-        if conn:
-            print('Connection - record')
         if day_time == 'morning':
             mydb.execute(f"INSERT INTO stock (date, region, morning) VALUES ('{date}', '{city}', {value})")
 
